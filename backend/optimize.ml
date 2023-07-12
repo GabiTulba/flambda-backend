@@ -5,8 +5,6 @@ let is_useless_mov (fst_mov:Cfg.basic Cfg.instruction) (snd_mov:Cfg.basic Cfg.in
     let snd_src, snd_dst = snd_mov.arg.(0), snd_mov.res.(0) in
     let is_same_loc = Reg.same_loc fst_src snd_dst && Reg.same_loc fst_dst snd_src in
     let is_same_reg_class = Regalloc_utils.same_reg_class fst_src snd_dst && Regalloc_utils.same_reg_class fst_dst snd_src in
-    (Bool.to_string is_same_loc) ^ " " ^ (Bool.to_string is_same_reg_class) |> print_string;
-    print_endline "";
     is_same_loc && is_same_reg_class
     
 
