@@ -305,9 +305,11 @@ let compile_fundecl ~ppf_dump ~funcnames fd_cmm =
           | LS -> Profile.record ~accumulate:true "cfg_ls" Regalloc_ls.run
           | Upstream -> assert false
         end
+        (* ++ (fun x -> Regalloc_irc_utils.log_cfg_with_infos ~indent:0 x; x) *)
         ++ Cfg_with_infos.cfg_with_layout
         ++ Profile.record ~accumulate:true "cfg_validate_description" (Regalloc_validate.run cfg_description)
-        ++ Profile.record ~accumulate:true "cfg_simplify" Regalloc_utils.simplify_cfg
+        ++ Profile.record ~accumulate:true "cfg_simplify" Regalloc_utils.simplify_cfg 
+        ++ Profile.record ~accumulate:true "cfg_peephole_optimize" Optimize.peephole_optimize_cfg
         ++ Profile.record ~accumulate:true "save_cfg" save_cfg
         ++ Profile.record ~accumulate:true "cfg_reorder_blocks"
              (reorder_blocks_random ppf_dump)
