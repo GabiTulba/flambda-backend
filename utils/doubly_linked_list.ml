@@ -55,6 +55,47 @@ let insert_after cell value =
       | Empty -> cell.t.last <- value_node
       | Node node -> node.prev <- value_node))
 
+let delete_curr cell =
+  match cell.node with
+  | Empty ->
+      (* internal invariant: cell's nodes are not empty *)
+      assert false
+  | Node cell_node ->
+    match cell_node.prev, cell_node.next with
+    | Empty, Empty -> (cell.t.first <- Empty; cell.t.last <- Empty)
+    | Empty, Node next_cell_node -> (cell.t.first <- cell_node.next; next_cell_node.prev <- Empty)
+    | Node prev_cell_node, Empty -> (cell.t.last <- cell_node.prev; prev_cell_node.next <- Empty)
+    | Node prev_cell_node, Node next_cell_node -> (
+      prev_cell_node.next <- cell_node.next;
+      next_cell_node.prev <- cell_node.prev
+    )
+
+let delete_before cell =
+  match cell.node with
+  | Empty ->
+      (* internal invariant: cell's nodes are not empty *)
+      assert false
+  | Node cell_node ->
+      match cell_node.prev with
+      | Empty ->
+        (* convention: cannot delete_before the first element in the list *)
+        assert false
+      | Node prev_cell_node -> 
+        delete_curr {node=cell_node.prev; t=cell.t}
+
+let delete_after cell =
+  match cell.node with
+  | Empty ->
+      (* internal invariant: cell's nodes are not empty *)
+      assert false
+  | Node cell_node ->
+      match cell_node.next with
+      | Empty ->
+        (* convention: cannot delete_after the last element in the list *)
+        assert false
+      | Node next_cell_node ->
+        delete_curr {node=cell_node.next; t=cell.t}
+
 let value cell =
   match cell.node with
   | Empty ->
