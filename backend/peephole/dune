@@ -1,0 +1,11 @@
+(rule
+ (alias runtest)
+ (targets peephole_generated_gen.ml)
+ (deps (:generator ./generator/generator.exe) (:orig_file peephole_generated.ml))
+ (action 
+  (progn
+   (with-stdout-to %{targets} (run %{generator}))
+   (run cp ../../../../backend/.ocamlformat ../)
+   (run cp ../../../../backend/.ocamlformat-enable ../)
+   (run ocamlformat -i %{targets})
+   (diff %{targets} %{orig_file}))))
