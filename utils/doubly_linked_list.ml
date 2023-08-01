@@ -237,17 +237,7 @@ let delete_after cell =
     | Empty ->
       (* convention: cannot delete_after the last element in the list *)
       assert false
-<<<<<<< HEAD
-  | Node cell_node ->
-      match cell_node.next with
-      | Empty ->
-        (* convention: cannot delete_after the first element in the list *)
-        assert false
-      | Node next_cell_node ->
-        delete_curr {node=cell_node.next; t=cell.t}
-=======
     | Node next_cell_node -> delete_curr { node = cell_node.next; t = cell.t })
->>>>>>> c36a9f83 (Changed:)
 
 let remove_first : 'a t -> f:('a -> bool) -> unit =
  fun t ~f ->
