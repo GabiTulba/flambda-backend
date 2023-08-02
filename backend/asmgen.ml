@@ -313,7 +313,7 @@ let compile_fundecl ~ppf_dump ~funcnames fd_cmm =
              we would have to recompute it here. Recomputing it here breaks the CI because
              the liveness_analysis algorithm does not work properly after register allocation. *)
           if !Flambda_backend_flags.cfg_peephole_optimize then
-            let optimized_cfg, _made_optimizations = Peephole_optimize.peephole_optimize_cfg cfg in
+            let optimized_cfg = Peephole_optimize.peephole_optimize_cfg cfg in
              optimized_cfg
           else cfg )
         ++ Profile.record ~accumulate:true "save_cfg" save_cfg
